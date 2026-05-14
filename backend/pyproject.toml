@@ -1,0 +1,119 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nedaf"
+version = "0.1.0"
+description = "Network Data Analysis Framework - GUI-based tool for network data import, transformation, exploration, visualization, and LLM-powered insights"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "Juan Chavarria", email = "juanchavarriau@gmail.com"}
+]
+keywords = ["network", "analysis", "visualization", "graph", "data-science", "networkx", "llm"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+# Core dependencies - minimal install (~100MB)
+dependencies = [
+    "PyQt6>=6.6.0",
+    "networkx>=3.2.0",
+    "pandas>=2.2.0",
+    "matplotlib>=3.8.0",
+    "numpy>=1.26.0",
+    "scipy>=1.13.0",
+    "pyqtgraph>=0.13.0",
+    "fa2-modified>=0.3.0",
+    "polars>=0.20.0",
+    "igraph>=0.11.0",
+    "datashader>=0.16.0",
+    "bokeh>=3.3.0",
+    "xarray>=2023.12.0",
+    "fastapi[standard]>=0.136.1",
+]
+
+[project.optional-dependencies]
+# LLM features - RAG and chatbot support (~200MB)
+llm = [
+    "langchain>=0.2.0",
+    "langchain-openai>=0.1.0",
+    "langchain-community>=0.2.0",
+    "langchain-core>=0.2.0",
+    "chromadb>=0.5.0",
+    "python-dotenv>=1.0.0",
+    "openai>=1.35.0",
+]
+
+# SSH remote file access (~10MB)
+ssh = [
+    "paramiko>=3.4.0",
+]
+
+# GPU acceleration with RAPIDS (requires CUDA, ~3GB)
+gpu = [
+    "cudf-cu12>=24.4.0",
+    "cugraph-cu12>=24.4.0",
+    "cuml-cu12>=24.4.0",
+]
+
+# Development tools
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "black>=24.0",
+    "ruff>=0.4.0",
+    "mypy>=1.0",
+    "pre-commit>=3.0",
+]
+
+# All optional features
+all = [
+    "nedaf[llm,ssh,gpu,dev]",
+]
+
+[project.urls]
+Homepage = "https://github.com/JuanChavarriaU/NEDAF"
+Issues = "https://github.com/JuanChavarriaU/NEDAF/issues"
+Repository = "https://github.com/JuanChavarriaU/NEDAF"
+
+[project.scripts]
+nedaf = "main:main"
+
+[tool.setuptools]
+packages = ["Model", "View", "ViewModel"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = [
+    "--verbose",
+    "--cov=.",
+    "--cov-report=html",
+    "--cov-report=term-missing",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false

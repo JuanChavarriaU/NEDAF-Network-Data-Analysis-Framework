@@ -1,0 +1,9 @@
+# Development tools for NEDAF contributors
+# Install with: pip install -r requirements-core.txt -r requirements-dev.txt
+
+pytest==7.4.0
+pytest-cov==4.1.0
+black==24.3.0
+ruff==0.4.0
+mypy==1.9.0
+pre-commit==3.5.0

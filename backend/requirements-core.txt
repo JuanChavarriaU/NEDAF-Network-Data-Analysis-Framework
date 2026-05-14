@@ -1,0 +1,25 @@
+# Core dependencies for NEDAF - minimal install
+# Install with: pip install -r requirements-core.txt
+
+PyQt6==6.6.1
+PyQt6-Qt6==6.6.2
+PyQt6-sip==13.6.0
+networkx==3.2.1
+pandas==2.2.1
+matplotlib==3.8.4
+numpy==1.26.4
+scipy==1.13.0
+pyqtgraph==0.13.7
+fa2-modified==0.3.10
+
+# Required transitive dependencies
+python-dateutil==2.9.0.post0
+pytz==2024.1
+six==1.16.0
+contourpy==1.2.0
+cycler==0.12.1
+fonttools==4.51.0
+kiwisolver==1.4.5
+pillow==10.2.0
+pyparsing==3.1.2
+packaging==24.0

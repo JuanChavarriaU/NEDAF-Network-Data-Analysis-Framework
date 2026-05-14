@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  nedaf-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: nedaf-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - OLLAMA_HOST=http://nedaf-ai:11434
+    depends_on:
+      - nedaf-ai
+    networks:
+      - nedaf-network
+    volumes:
+      - ./backend/testing_data:/app/testing_data
+
+  nedaf-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: nedaf-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - nedaf-backend
+    networks:
+      - nedaf-network
+
+  nedaf-ai:
+    image: ollama/ollama:latest
+    container_name: nedaf-ai
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - nedaf-network
+    # Pull the model automatically when the container starts
+    entrypoint: >
+      /bin/sh -c "
+      /bin/ollama serve &
+      sleep 5 &&
+      /bin/ollama pull phi3:mini &&
+      wait
+      "
+
+networks:
+  nedaf-network:
+    driver: bridge
+
+volumes:
+  ollama_data:

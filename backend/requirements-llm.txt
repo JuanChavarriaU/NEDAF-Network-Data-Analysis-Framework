@@ -1,0 +1,21 @@
+# LLM and RAG features for NEDAF
+# Install with: pip install -r requirements-core.txt -r requirements-llm.txt
+
+langchain==0.2.7
+langchain-community==0.2.6
+langchain-core==0.2.12
+langchain-openai==0.1.14
+langchain-text-splitters==0.2.2
+chromadb==0.5.3
+openai==1.35.10
+python-dotenv==1.0.1
+
+# ChromaDB dependencies
+chroma-hnswlib==0.7.3
+onnx==1.16.1
+onnxruntime==1.18.1
+posthog==3.5.0
+pydantic==2.8.2
+pydantic_core==2.20.1
+tenacity==8.5.0
+tiktoken==0.7.0

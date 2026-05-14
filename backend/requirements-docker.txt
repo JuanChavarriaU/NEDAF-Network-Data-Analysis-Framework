@@ -1,0 +1,16 @@
+fastapi>=0.111.0
+uvicorn[standard]>=0.30.1
+python-multipart>=0.0.9
+python-dotenv>=1.0.1
+pydantic>=2.7.0
+polars>=0.20.0
+networkx>=3.2.1
+pandas>=2.2.1
+matplotlib>=3.8.4
+numpy>=1.26.4
+scipy>=1.13.0
+fa2-modified>=0.3.10
+langchain>=0.2.7
+langchain-community>=0.2.6
+langchain-core>=0.2.12
+igraph>=0.11.0
