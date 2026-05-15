@@ -25,7 +25,6 @@ Para desplegar en tu servidor **sin necesidad de descargar el código fuente**, 
    En tu VPS o servidor, crea un directorio para NEDAF y dentro de él un archivo llamado `docker-compose.yml` con el siguiente contenido. *(Importante: Reemplaza `tu-usuario` y `nombre-del-repo` por los correspondientes en GitHub)*:
 
    ```yaml
-   version: '3.8'
    services:
      nedaf-backend:
        image: ghcr.io/tu-usuario/nombre-del-repo-backend:latest
