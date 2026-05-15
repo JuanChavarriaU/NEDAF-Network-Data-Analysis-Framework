@@ -1,59 +1,36 @@
-# NEDAF: Network Data Analysis Framework
+# NEDAF Backend
 
-NEDAF is a contenerized Python-based application for network data analysis, providing a user-friendly interface for importing, transforming, exploring, and visualizing network data.
+El backend de NEDAF está construido con **FastAPI** y **Python**. Su arquitectura se encarga de procesar los datos estadísticos, gestionar las transformaciones, generar las visualizaciones y propiedades de la red empleando igraph, y facilitar el razonamiento sobre los grafos a través de un LLM local provisto por **Ollama**.
 
-## Features
+## Arquitectura
 
-- Data Import: Easily import network data from various sources.
-- Data Transformation: Transform and preprocess your network data.
-- Data Exploration: Explore and analyze your network data.
-- Network Visualization: Visualize your network data with interactive graphs.
-- LLM Insights: Leverage Language Model insights for your network analysis.
-- Cluster Connection: Option to connect to a cluster for distributed computing. (Still in dev)
+- `api/`: Contiene el punto de acceso de FastAPI (`main.py`) y los enrutadores que exponen los diferentes *endpoints* a los que se conecta el frontend.
+- `Model/`: Centraliza toda la lógica de negocio, cálculos estadísticos, transformaciones, persistencia (bases de datos vectoriales) e integraciones (LangChain).
+- `Dockerfile`: Orquesta las dependencias nativas requeridas para cálculo científico (numpy, scipy) y levanta la aplicación en un puerto público.
 
-## Requirements
+## Requisitos de Desarrollo
 
-- Python 3.11
-- PyQt6
-- NetworkX
-- Pandas
-- Matplotlib
-- Numpy
-- Scipy
+- Python 3.10+
 
-## Installation
+## Entorno Local (Sin Docker)
 
-1. Clone the repository:
-git clone https://github.com/yourusername/NEDAF.git
-cd NEDAF
+Si deseas desarrollar o depurar código sin utilizar el entorno empaquetado de Docker:
 
-2. Install the required packages:
+1. Crea y activa un entorno virtual:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # En Linux/Mac
+   # .venv\Scripts\activate   # En Windows
+   ```
+
+2. Instala las dependencias:
+   ```bash
    pip install -r requirements.txt
+   ```
 
-## Usage
+3. Ejecuta el servidor de desarrollo:
+   ```bash
+   uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
+   ```
 
-Run the main application:
-python main.py
-
-This will launch the NEDAF GUI with the following tabs:
-- Import Data
-- Data Transformation
-- Data Exploration
-- Data Visualization
-- LLM Insight
-
-## Structure
-
-- `main.py`: The main entry point of the application.
-- `View/`: Contains the GUI components for each functionality.
-- `Model/`: Contains the data management and analysis logic.
-
-## Contributing
-Contributions to NEDAF are welcome. Please feel free to submit a Pull Request.
-
-## License
-Thinking about one
-
-## Contact
-LinkedIn: https://www.linkedin.com/in/juanchavarriaure%C3%B1a/
-
+La documentación Swagger de la API estará disponible localmente en: `http://localhost:8000/docs`.

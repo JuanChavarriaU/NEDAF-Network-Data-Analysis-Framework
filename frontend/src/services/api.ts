@@ -15,7 +15,7 @@ const apiClient = axios.create({
 
 // 1. Data Management Types
 export interface LoadDataPayload {
-  file_path: string;
+  file_path: string; // Deprecated, replaced by File payload
 }
 
 export interface LoadDataResponse {
@@ -73,8 +73,14 @@ export const DataManagementAPI = {
   /**
    * Loads a dataset from a local file path.
    */
-  loadData: async (payload: LoadDataPayload): Promise<LoadDataResponse> => {
-    const response = await apiClient.post<LoadDataResponse>('/api/data/load', payload);
+  loadData: async (file: File): Promise<LoadDataResponse> => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await apiClient.post<LoadDataResponse>('/api/data/load', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   },
 

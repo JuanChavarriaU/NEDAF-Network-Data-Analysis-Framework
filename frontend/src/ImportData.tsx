@@ -3,21 +3,21 @@ import { Database, File, AlertCircle, CheckCircle2, Loader2, FolderOpen } from '
 import { DataManagementAPI, handleApiError } from './services/api';
 
 export function ImportData() {
-  const [filePath, setFilePath] = useState('');
+  const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   const handleLoadData = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!filePath.trim()) return;
+    if (!file) return;
 
     try {
       setIsLoading(true);
       setError(null);
       setSuccessMsg(null);
 
-      const res = await DataManagementAPI.loadData({ file_path: filePath });
+      const res = await DataManagementAPI.loadData(file);
       setSuccessMsg(`Dataset loaded successfully! Columns: ${res.columns.length}, Rows: ${res.rows}`);
 
     } catch (err) {
@@ -27,13 +27,12 @@ export function ImportData() {
     }
   };
 
-  // Note: Web browsers cannot retrieve absolute paths from file inputs due to security.
-  // The user will need to paste the absolute path, or use a relative path if the backend allows.
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      // We can only get the file name, not the absolute path.
-      setFilePath(file.name);
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      setError(null);
+      setSuccessMsg(null);
     }
   };
 
@@ -57,23 +56,22 @@ export function ImportData() {
 
         <h2 className="text-2xl font-semibold text-white mb-2 relative z-10">Load Local Dataset</h2>
         <p className="text-gray-400 text-center max-w-md mb-8 relative z-10">
-          Enter the absolute file path to your dataset (CSV, JSON, Parquet) on the local machine.
+          Upload your dataset (CSV, JSON, Parquet, GML, MTX) from your local machine.
         </p>
 
         <form onSubmit={handleLoadData} className="w-full max-w-lg relative z-10">
           <div className="flex flex-col gap-4">
-            <div className="relative flex gap-2">
-              <input
-                type="text"
-                value={filePath}
-                onChange={(e) => setFilePath(e.target.value)}
-                placeholder="e.g. /home/juanjo/data/dataset.csv"
-                className="flex-1 bg-dark-bg border border-dark-border rounded-xl py-3 px-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all"
-                disabled={isLoading}
-              />
-
-              <label className="flex items-center justify-center bg-dark-bg border border-dark-border hover:bg-dark-hover rounded-xl px-4 cursor-pointer transition-colors group" title="Browse (Only gets filename due to browser security)">
-                <FolderOpen className="text-gray-400 group-hover:text-brand-400 transition-colors" size={20} />
+            <div className="relative flex flex-col gap-2">
+              <label className="flex items-center justify-between w-full bg-dark-bg border border-dark-border hover:border-brand-500 rounded-xl py-4 px-5 cursor-pointer transition-all group">
+                <div className="flex items-center gap-3 truncate">
+                  <FolderOpen className="text-brand-400 shrink-0" size={24} />
+                  <span className="text-gray-300 truncate font-medium">
+                    {file ? file.name : "Click to select a file..."}
+                  </span>
+                </div>
+                <span className="text-sm text-gray-500 group-hover:text-brand-400 transition-colors ml-4 shrink-0">
+                  Browse Files
+                </span>
                 <input
                   type="file"
                   className="hidden"
@@ -81,6 +79,11 @@ export function ImportData() {
                   accept=".csv,.json,.parquet,.gml,.mtx"
                 />
               </label>
+              {file && (
+                <div className="text-xs text-gray-500 ml-2">
+                  Size: {(file.size / 1024 / 1024).toFixed(2)} MB
+                </div>
+              )}
             </div>
 
             {error && (
@@ -99,7 +102,7 @@ export function ImportData() {
 
             <button
               type="submit"
-              disabled={isLoading || !filePath.trim()}
+              disabled={isLoading || !file}
               className="w-full flex items-center justify-center gap-2 py-3 bg-brand-600 hover:bg-brand-500 disabled:bg-brand-600/50 disabled:cursor-not-allowed text-white rounded-xl font-medium transition-all shadow-lg shadow-brand-900/50 hover:shadow-brand-500/25 mt-2"
             >
               {isLoading ? (

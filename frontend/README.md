@@ -1,73 +1,33 @@
-# React + TypeScript + Vite
+# NEDAF Web (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+El frontend de NEDAF es una SPA (Single Page Application) moderna y reactiva construida con **React**, **TypeScript** y el empaquetador **Vite**. Su principal propósito es proveer una interfaz visual intuitiva y un renderizado de redes de gran escala sin pérdida de frames utilizando tecnologías basadas en **WebGL**.
 
-Currently, two official plugins are available:
+## Tecnologías Principales
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React 18 + TypeScript**: Lógica base fuertemente tipada.
+- **Vite**: Motor de compilación en desarrollo y empaquetador para producción.
+- **react-force-graph-2d**: Manejo avanzado del grafo a través de la tarjeta gráfica (WebGL) para evitar bloqueos en el hilo principal de JavaScript.
+- **Axios**: Clientes y servicios consumibles conectados al Backend (FastAPI).
+- **TailwindCSS**: Estilizado moderno para la interfaz gráfica.
 
-## React Compiler
+## Estructura
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- `src/`: Contiene todo el código base (componentes, servicios API, estilos).
+- `src/services/api.ts`: Centraliza la conexión al Backend.
+- `Dockerfile`: Orquesta un entorno Node.js y expone los compilados mediante un servidor web NGINX liviano.
 
-## Expanding the ESLint configuration
+## Desarrollo Local
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Si deseas modificar la interfaz o los estilos de manera local sin usar Docker:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1. Instala las dependencias:
+   ```bash
+   npm install
+   ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+2. Ejecuta el servidor de desarrollo de Vite:
+   ```bash
+   npm run dev
+   ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Tu aplicación interactiva estará corriendo localmente en `http://localhost:5173`. Recuerda tener el backend corriendo simultáneamente para que la aplicación obtenga los datos y métricas necesarias.
